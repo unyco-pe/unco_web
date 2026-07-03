@@ -193,6 +193,10 @@ footer .logo-h{ height:21px; }
    MANIFIESTO · una sola frase, palabra por palabra
    ============================================================ */
 .manifesto{ padding-block:clamp(120px, 22vh, 240px); }
+.manifesto-grid{
+  display:grid; grid-template-columns:1.4fr .9fr;
+  gap:clamp(30px,6vw,80px); align-items:center;
+}
 .manifesto p{
   font-family:var(--display);
   font-weight:600;
@@ -203,6 +207,13 @@ footer .logo-h{ height:21px; }
 .manifesto .w{ display:inline-block; transition:opacity .1s; }
 .js-anim .manifesto .w{ opacity:.12; }
 .manifesto .accent{ color:var(--ambar); }
+.manifesto-amp{ width:100%; max-width:340px; margin-inline:auto; }
+.manifesto-amp svg{ width:100%; height:auto; overflow:visible; }
+.amp-ghost{ fill:none; stroke:var(--cream); stroke-width:1.1; opacity:.14; }
+.amp-fill{ fill:var(--cream); }
+/* Sin animacion (o sin JS), el & se ve completo, no vacio */
+.manifesto-amp .amp-fill{ transform:scaleY(1); transform-origin:50% 100%; transform-box:fill-box; }
+.js-anim .manifesto-amp .amp-fill{ transform:scaleY(0); }
 
 /* ============================================================
    SERVICIOS · lista editorial, no grilla genérica
@@ -300,21 +311,21 @@ footer .logo-h{ height:21px; }
 .behind{ padding-block:clamp(40px,7vh,80px); }
 .behind-hero{
   position:relative; margin:0;
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
+  border-radius:10px; overflow:hidden;
 }
 .behind-hero img{
-  width:100%; height:clamp(320px,52vh,540px);
+  width:100%; height:clamp(300px,44vh,460px);
   object-fit:cover; display:block;
 }
 .behind-hero figcaption{
-  position:absolute; left:var(--gutter); bottom:24px;
+  position:absolute; left:24px; bottom:24px;
   color:var(--cream);
   background:rgba(20,20,19,.55);
   padding:9px 16px; border-radius:100px;
   backdrop-filter:blur(6px);
   -webkit-backdrop-filter:blur(6px);
 }
+.behind .subbrand{ margin-top:28px; }
 
 /* ============================================================
    SUBMARCAS · 3DGarage y Muwa
@@ -333,6 +344,20 @@ footer .logo-h{ height:21px; }
   font-size:clamp(30px,5vw,56px); letter-spacing:-.02em; line-height:1;
 }
 .subbrand p{ color:var(--cream-dim); max-width:40ch; margin-top:12px; }
+/* Boton de Instagram solido, con el color de cada submarca */
+.ig-btn{
+  justify-self:start;
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:13px; letter-spacing:.06em;
+  padding:13px 24px; border-radius:100px;
+  background:var(--cream); color:var(--ground); font-weight:700;
+  transition:transform .3s ease, background .3s ease, color .3s ease;
+}
+.ig-btn svg{ width:17px; height:17px; }
+.ig-btn:hover{ transform:translateY(-3px); }
+.sb-azul  .ig-btn:hover{ background:var(--azul);  color:var(--cream); }
+.sb-muwa  .ig-btn:hover{ background:var(--rojo);  color:var(--cream); }
+.sb-unyco .ig-btn:hover{ background:var(--ambar); color:var(--ground); }
 .subbrand .ig{
   font-family:var(--mono); font-size:13px; letter-spacing:.06em;
   display:inline-flex; align-items:center; gap:8px;
@@ -345,6 +370,8 @@ footer .logo-h{ height:21px; }
 .sb-azul .accent{ color:var(--azul); }
 .sb-muwa .wash{ background:radial-gradient(80% 120% at 100% 100%, var(--vino), transparent 58%); opacity:.55; }
 .sb-muwa .accent{ color:var(--rojo); }
+.sb-unyco .wash{ background:radial-gradient(80% 120% at 100% 100%, var(--ambar), transparent 60%); opacity:.30; }
+.sb-unyco .accent{ color:var(--ambar); }
 
 /* ============================================================
    CIERRE / CONTACTO
@@ -372,6 +399,9 @@ footer .logo-h{ height:21px; }
 }
 .btn-primary{ background:var(--cream); color:var(--ground); font-weight:700; }
 .btn-ghost{ border:1px solid var(--cream); color:var(--cream); }
+.btn-ig{ display:inline-flex; align-items:center; gap:9px; }
+.btn-ig svg{ width:17px; height:17px; }
+.btn-ig:hover{ background:var(--ambar); border-color:var(--ambar); color:var(--ground); }
 .btn:hover{ transform:translateY(-3px); }
 
 footer{
@@ -413,6 +443,8 @@ footer .tag{ font-size:11px; }
   .svc-desc{ grid-column:2; }
   .svc:hover .svc-name{ transform:none; }
   .nav-links{ display:none; }
+  .manifesto-grid{ grid-template-columns:1fr; gap:40px; }
+  .manifesto-amp{ max-width:200px; order:-1; }
 }
 
 /* Respeta a quien prefiere menos movimiento */
@@ -484,13 +516,32 @@ footer .tag{ font-size:11px; }
 
 <!-- ============ MANIFIESTO ============ -->
 <section class="manifesto wrap">
-  <!-- TEXTO · frase tesis. Cada palabra va en un <span class="w">. -->
-  <p id="manifesto">
-    <span class="w">Una</span> <span class="w">idea</span> <span class="w">no</span>
-    <span class="w">vale</span> <span class="w">nada</span> <span class="w">hasta</span>
-    <span class="w">que</span> <span class="w">alguien</span> <span class="w accent">la</span>
-    <span class="w accent">fabrica.</span>
-  </p>
+  <div class="manifesto-grid">
+    <!-- TEXTO · frase tesis. Cada palabra va en un <span class="w">. -->
+    <p id="manifesto">
+      <span class="w">Una</span> <span class="w">idea</span> <span class="w">no</span>
+      <span class="w">vale</span> <span class="w">nada</span> <span class="w">hasta</span>
+      <span class="w">que</span> <span class="w">alguien</span> <span class="w accent">la</span>
+      <span class="w accent">fabrica.</span>
+    </p>
+    <!-- Ampersand que se "pinta" conforme haces scroll. Es tu & oficial,
+         revelado de abajo hacia arriba como si una brocha lo dibujara. -->
+    <div class="manifesto-amp" aria-hidden="true">
+      <svg viewBox="0 0 204.7 189.44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="brushClip">
+            <path d="M145.16,127.55c2.66-4.43,5.09-9,7.21-13.74,2.29-5.12,7.75-22.71,11.48-25.14,4.96-3.24,9.99,3.77,14.52,5.98,11.25,5.5,22.37-.61,25.47-12.24,1.7-6.37.7-11.92-1.63-18.02-11.07-28.97-55.27-17.63-70.14,2.15-9.23,12.28,2.27,16.96,2.24,28.53-.01,5.58-3.88,13.58-6.81,18.31-.84.2-9.84-9.14-11.25-10.59-4.76-4.9-14.42-14.21-17.97-19.29-.79-1.13-1.5-2.02-1.29-3.53,1.54.04,2.79-.67,4.05-1.42,8.97-5.32,20.99-16.19,24.7-26.05C145.44.22,52.58-21.3,31.37,26.86c-8.66,19.67-3.89,37.21,9.06,53.35-5.05,4.92-11.51,7.92-16.96,12.63C.31,112.86-9.59,142.25,11.88,167.99c23.7,28.42,65.54,26.45,94.05,6.62,8.5-5.91,15.15-14.39,21.63-22.41,6.35-7.86,12.41-16,17.6-24.65ZM67.46,33.4c4.32-5.94,13.7-7.76,19.05-2.03,7.82,8.37,1.47,25.63-8.36,29.87-7.09-6.46-17.81-18.04-10.69-27.84ZM58.89,150.54c-2.66-1.68-8.53-8.24-10.19-11.01-4.7-7.88-4.44-14.2.02-22.08,1.37-2.41,10.06-13.93,12.86-12.33l36.05,38.06c-8.62,8.02-28.24,14-38.73,7.35Z"/>
+          </clipPath>
+        </defs>
+        <!-- Fantasma tenue del & completo, para que se intuya la forma -->
+        <path class="amp-ghost" d="M145.16,127.55c2.66-4.43,5.09-9,7.21-13.74,2.29-5.12,7.75-22.71,11.48-25.14,4.96-3.24,9.99,3.77,14.52,5.98,11.25,5.5,22.37-.61,25.47-12.24,1.7-6.37.7-11.92-1.63-18.02-11.07-28.97-55.27-17.63-70.14,2.15-9.23,12.28,2.27,16.96,2.24,28.53-.01,5.58-3.88,13.58-6.81,18.31-.84.2-9.84-9.14-11.25-10.59-4.76-4.9-14.42-14.21-17.97-19.29-.79-1.13-1.5-2.02-1.29-3.53,1.54.04,2.79-.67,4.05-1.42,8.97-5.32,20.99-16.19,24.7-26.05C145.44.22,52.58-21.3,31.37,26.86c-8.66,19.67-3.89,37.21,9.06,53.35-5.05,4.92-11.51,7.92-16.96,12.63C.31,112.86-9.59,142.25,11.88,167.99c23.7,28.42,65.54,26.45,94.05,6.62,8.5-5.91,15.15-14.39,21.63-22.41,6.35-7.86,12.41-16,17.6-24.65ZM67.46,33.4c4.32-5.94,13.7-7.76,19.05-2.03,7.82,8.37,1.47,25.63-8.36,29.87-7.09-6.46-17.81-18.04-10.69-27.84ZM58.89,150.54c-2.66-1.68-8.53-8.24-10.19-11.01-4.7-7.88-4.44-14.2.02-22.08,1.37-2.41,10.06-13.93,12.86-12.33l36.05,38.06c-8.62,8.02-28.24,14-38.73,7.35Z"/>
+        <!-- Relleno crema que sube (la "pintura") recortado a la forma del & -->
+        <g clip-path="url(#brushClip)">
+          <rect class="amp-fill" x="0" y="0" width="204.7" height="189.44"/>
+        </g>
+      </svg>
+    </div>
+  </div>
 </section>
 
 <!-- ============ SERVICIOS ============ -->
@@ -529,7 +580,7 @@ footer .tag{ font-size:11px; }
   <div class="svc svc--ambar reveal">
     <span class="svc-dot"></span>
     <div class="svc-name">Trofeos corporativos</div>
-    <div class="svc-meta tag">Impresión + Madera</div>
+    <div class="svc-meta tag">Impresión + madera</div>
     <div class="svc-desc">Reconocimientos hechos a medida, combinando impresión con bases de madera. Una pieza que no se parece a las del catálogo de siempre.</div>
   </div>
   <div class="svc svc--rojo reveal">
@@ -643,11 +694,25 @@ footer .tag{ font-size:11px; }
 <!-- Franja panoramica a lo ancho. Cuando tengas la foto de equipo,
      agrega otra linea img igual a la de abajo: la franja se divide
      sola en dos paneles. -->
-<section class="behind reveal">
+<section class="behind wrap reveal">
   <figure class="behind-hero">
     <img src="fotos/unyco/taller/taller.jpg" alt="El taller de Un&Co." loading="lazy">
     <figcaption class="tag">Detrás de cámara · El taller</figcaption>
   </figure>
+
+  <!-- Bloque de Un&Co. (el taller): mismo formato que las submarcas -->
+  <div class="subbrand sb-unyco reveal">
+    <div class="wash"></div>
+    <div>
+      <h3>Un<span class="accent">&amp;</span>Co.</h3>
+      <p>El taller. Impresión 3D, trofeos, llaveros, maquetas y proyectos a medida. Todo lo que ves aquí sale de la misma mesa.</p>
+    </div>
+    <!-- DATOS DE CONTACTO · Instagram Un&Co. -->
+    <a class="ig-btn" href="https://instagram.com/unyco.pe" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      @unyco.pe
+    </a>
+  </div>
 </section>
 
 <!-- ============ SUBMARCAS ============ -->
@@ -665,7 +730,10 @@ footer .tag{ font-size:11px; }
       <p>Autopartes y repuestos en materiales técnicos. Escaneo y modelado orientado a autos y motos.</p>
     </div>
     <!-- DATOS DE CONTACTO · Instagram 3DGarage -->
-    <a class="ig accent" href="https://instagram.com/3d_garage.pe" target="_blank" rel="noopener">@3d_garage.pe →</a>
+    <a class="ig-btn" href="https://instagram.com/3d_garage.pe" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      @3d_garage.pe
+    </a>
   </div>
 
   <!-- Muwa -->
@@ -676,7 +744,10 @@ footer .tag{ font-size:11px; }
       <p>Objetos para la casa. Luminarias y piezas de home deco diseñadas y fabricadas en el taller.</p>
     </div>
     <!-- DATOS DE CONTACTO · Instagram Muwa -->
-    <a class="ig accent" href="https://instagram.com/muwahome.pe" target="_blank" rel="noopener">@muwahome.pe →</a>
+    <a class="ig-btn" href="https://instagram.com/muwahome.pe" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      @muwahome.pe
+    </a>
   </div>
 </section>
 
@@ -720,6 +791,11 @@ footer .tag{ font-size:11px; }
     <a class="btn btn-primary" href="https://wa.me/51967808331" target="_blank" rel="noopener">WhatsApp</a>
     <!-- DATOS DE CONTACTO · correo -->
     <a class="btn btn-ghost" href="mailto:unyco.pe@gmail.com">unyco.pe@gmail.com</a>
+    <!-- DATOS DE CONTACTO · Instagram -->
+    <a class="btn btn-ghost btn-ig" href="https://instagram.com/unyco.pe" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      Instagram
+    </a>
   </div>
 </section>
 
@@ -855,23 +931,33 @@ window.addEventListener('load', () => {
     .to('.scroll-cue',   {opacity:1, y:0, duration:.5}, '-=0.25');
 
   /* 2b. Al salir del hero, el & "respira": los voxels se separan
-     un poco y el conjunto se va. Ligado al scroll. */
-  gsap.to(vox, {
-    scrollTrigger:{
-      trigger:'.hero',
-      start:'top top',
-      end:'bottom top',
-      scrub:true
-    },
-    x:() => gsap.utils.random(-40,40),
-    y:() => gsap.utils.random(-40,40),
-    opacity:0.15,
-    stagger:{ each:0.001, from:'edges' }
-  });
-  gsap.to('.hero-amp', {
-    scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true },
-    scale:1.25, opacity:0, ease:'none'
-  });
+     un poco y el conjunto se va. Ligado al scroll.
+     Uso fromTo (no to) declarando a proposito el punto de partida
+     (armado, quieto, visible). Asi, sin importar en que momento
+     exacto termine la animacion de entrada de arriba, el scroll
+     siempre sabe cual es el "armado" real y puede volver ahi. */
+  gsap.fromTo(vox,
+    { x:0, y:0, opacity:1 },
+    {
+      scrollTrigger:{
+        trigger:'.hero',
+        start:'top top',
+        end:'bottom top',
+        scrub:true
+      },
+      x:() => gsap.utils.random(-40,40),
+      y:() => gsap.utils.random(-40,40),
+      opacity:0.15,
+      stagger:{ each:0.001, from:'edges' }
+    }
+  );
+  gsap.fromTo('.hero-amp',
+    { scale:1, opacity:1 },
+    {
+      scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true },
+      scale:1.25, opacity:0, ease:'none'
+    }
+  );
 
   /* 2c. Manifiesto: las palabras se encienden una por una con el scroll. */
   const words = gsap.utils.toArray('#manifesto .w');
@@ -883,6 +969,18 @@ window.addEventListener('load', () => {
       trigger:'.manifesto',
       start:'top 70%',
       end:'bottom 70%',
+      scrub:true
+    }
+  });
+
+  /* 2c-bis. El ampersand se "pinta" de abajo hacia arriba con el scroll. */
+  gsap.to('.manifesto-amp .amp-fill', {
+    scaleY:1,
+    ease:'none',
+    scrollTrigger:{
+      trigger:'.manifesto',
+      start:'top 75%',
+      end:'bottom 65%',
       scrub:true
     }
   });
